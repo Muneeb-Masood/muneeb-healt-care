@@ -298,9 +298,8 @@ router.post("/vapi", asyncHandler(async (req, res) => {
 
 for (const call of toolCalls) {
     try {
-      const args = typeof call.arguments === "string"
-        ? JSON.parse(call.arguments)
-        : call.arguments;
+      const rawArgs = call.function?.arguments ?? call.arguments;
+      const args = typeof rawArgs === "string" ? JSON.parse(rawArgs) : rawArgs;
       const patient = await createPatientRecord(args);
       results.push({
         toolCallId: call.id,
