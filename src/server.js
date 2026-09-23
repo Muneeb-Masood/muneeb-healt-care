@@ -15,6 +15,7 @@ app.use(cors({
 }));
 
 app.use(express.json({ limit: "100kb" }));
+app.use(express.static("public"));
 
 app.get("/health", async (req, res) => {
   try {
