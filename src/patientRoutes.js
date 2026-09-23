@@ -290,6 +290,7 @@ router.delete("/:id", asyncHandler(async (req, res) => {
 // POST /vapi — webhook for Vapi tool calls
 router.post("/vapi", asyncHandler(async (req, res) => {
   console.log("VAPI_WEBHOOK", JSON.stringify(req.body, null, 2));
+  lastVapiPayload = req.body; 
 
   const toolCalls = req.body.message?.toolCallList || [];
   const results = [];
@@ -328,5 +329,10 @@ for (const call of toolCalls) {
 
   res.status(200).json({ results });
 }));
+
+// TEMPORARY debug route — remove before final submission
+router.get("/vapi/debug", (req, res) => {
+  res.status(200).json({ lastVapiPayload });
+});
 
 export default router;
