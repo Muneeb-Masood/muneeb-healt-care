@@ -294,9 +294,12 @@ router.post("/vapi", asyncHandler(async (req, res) => {
   const toolCalls = req.body.message?.toolCallList || [];
   const results = [];
 
-  for (const call of toolCalls) {
+for (const call of toolCalls) {
     try {
-      const patient = await createPatientRecord(call.arguments);
+      const args = typeof call.arguments === "string"
+        ? JSON.parse(call.arguments)
+        : call.arguments;
+      const patient = await createPatientRecord(args);
       results.push({
         toolCallId: call.id,
         result: `Patient registered successfully. ${patient.first_name} ${patient.last_name}, patient ID ${patient.patient_id}.`
