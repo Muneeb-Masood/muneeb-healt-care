@@ -32,12 +32,26 @@ function normalizePhone(value) {
   return value ? String(value).replace(/\D/g, "") : value;
 }
 
+function normalizeSex(value) {
+  if (!value) return value;
+  const v = String(value).trim().toLowerCase();
+  const map = {
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "decline to answer": "Decline to Answer",
+    "decline": "Decline to Answer"
+  };
+  return map[v] || value;
+}
+
 function cleanPayload(body) {
   const payload = { ...body };
   if (payload.phone_number) payload.phone_number = normalizePhone(payload.phone_number);
   if (payload.emergency_contact_phone) {
     payload.emergency_contact_phone = normalizePhone(payload.emergency_contact_phone);
   }
+  if (payload.sex) payload.sex = normalizeSex(payload.sex);
   return payload;
 }
 
