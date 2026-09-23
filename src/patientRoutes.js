@@ -4,6 +4,7 @@ import { createPatientSchema, updatePatientSchema } from "./validation.js";
 import { asyncHandler } from "./middleware.js";
 
 const router = express.Router();
+let lastVapiPayload = null;
 
 const columns = `
   patient_id,
